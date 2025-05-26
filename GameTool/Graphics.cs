@@ -1,6 +1,6 @@
 using Raylib_cs;
 
-namespace ToolKit;
+namespace GameTool;
 
 public static class Graphics
 {
