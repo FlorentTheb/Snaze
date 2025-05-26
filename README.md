@@ -1,1 +1,1 @@
-# Snaze
+# SyncSnake

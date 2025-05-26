@@ -6,7 +6,7 @@ public class Game
     public static void Main()
     {
         Console.WriteLine("Hello, WORLD !");
-        InitWindow(800, 800, "Snaze");
+        InitWindow(800, 800, "SyncSnake");
         GameTimer.Set(3);
         while (!WindowShouldClose())
         {
