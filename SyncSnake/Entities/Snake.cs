@@ -8,4 +8,9 @@ public class Snake
     {
         Length = 3;
     }
+
+    public void DrawSnake()
+    {
+        
+    }
 }
