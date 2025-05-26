@@ -1,17 +1,17 @@
-﻿using ToolKit;
+﻿using GameTool;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-public class Game
+public class SyncSnake
 {
     public static void Main()
     {
         Console.WriteLine("Hello, WORLD !");
-        InitWindow(800, 800, "SyncSnake");
+        InitWindow(1200, 800, "SyncSnake");
         GameTimer.Set(3);
         while (!WindowShouldClose())
         {
             BeginDrawing();
-            ClearBackground(Color.White);
+            ClearBackground(Color.Black);
             Graphics.DrawSquare(400, 400, 25, "Green");
             if (GameTimer.Update())
             {
