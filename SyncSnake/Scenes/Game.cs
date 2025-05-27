@@ -10,8 +10,8 @@ public class Game : IScene
 
     public Game()
     {
-        Grids[0] = new Grid<int>(CellNumber, CellNumber);
-        Grids[1] = new Grid<int>(CellNumber, CellNumber);
+        Grids.Add(new Grid<int>(CellNumber, CellNumber));
+        Grids.Add(new Grid<int>(CellNumber, CellNumber));
         InitCells();
         Snakes.Add(new Snake());
         Snakes.Add(new Snake());
@@ -74,6 +74,6 @@ public class Game : IScene
 
     private void DrawSnake()
     {
-
+        
     }
 }
