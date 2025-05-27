@@ -1,10 +1,10 @@
-using System;
-using System.Runtime.CompilerServices;
+using System.Drawing;
 using GameTool;
 
 public class Game : IScene
 {
     private const int CellNumber = 19;
+    private const int CellSize = 30;
     private List<Grid<int>> Grids = new List<Grid<int>>();
     private List<Snake> Snakes = new List<Snake>();
 
@@ -13,8 +13,8 @@ public class Game : IScene
         Grids.Add(new Grid<int>(CellNumber, CellNumber));
         Grids.Add(new Grid<int>(CellNumber, CellNumber));
         InitCells();
-        Snakes.Add(new Snake());
-        Snakes.Add(new Snake());
+        Snakes.Add(new Snake(Grids[0]));
+        Snakes.Add(new Snake(Grids[1]));
     }
 
     private void InitCells()
@@ -37,7 +37,6 @@ public class Game : IScene
     public void Draw()
     {
         DrawGrid();
-        DrawSnake();
     }
 
     private void DrawGrid()
@@ -48,32 +47,28 @@ public class Game : IScene
             {
                 for (int column = 0; column < Grids[0].Columns; column++)
                 {
-                    int cell = Grids[index].GetCell(row, column);
-                    int posX, posY;
-                    if (index == 0)
-                        posX = 20 + 30 * column;
-                    else
-                        posX = 610 + 30 * column;
-                    posY = 210 + 30 * row;
-                    DrawCell(cell, posX, posY, 30);
+                    DrawCell(Grids[index].GetCell(row, column), GetGridCoordinates(index, row, column));
                 }
             }
         }
     }
 
-    private void DrawCell(int value, int posX, int posY, int sideLength)
+    private void DrawCell(int value, Point coordinates)
     {
         string color;
         if (value == 0)
             color = "DarkGray";
-        else color = "White";
+        else color = "Green";
 
-        Graphics.DrawSquare(posX, posY, sideLength, "Black");
-        Graphics.DrawSquare(posX, posY, sideLength - 1, color);
+        Graphics.DrawSquare(coordinates.X, coordinates.Y, CellSize, "Black");
+        Graphics.DrawSquare(coordinates.X, coordinates.Y, CellSize - 1, color);
     }
 
-    private void DrawSnake()
+    private Point GetGridCoordinates(int gridIndex, int rowIndex, int columnIndex)
     {
-        
+        int offSet = gridIndex == 0 ? 20 : 610;
+        int posX = offSet + columnIndex * CellSize;
+        int posY = 210 + rowIndex * CellSize;
+        return new Point(posX, posY);
     }
 }
