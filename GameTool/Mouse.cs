@@ -8,5 +8,7 @@ public static class Mouse
     public static int GetX() => GetMouseX();
     public static int GetY() => GetMouseY();
     public static bool IsLeftDown() => IsMouseButtonDown(MouseButton.Left);
+    public static bool IsLeftPressed() => IsMouseButtonPressed(MouseButton.Left);
     public static bool IsRightDown() => IsMouseButtonDown(MouseButton.Right);
+    public static bool IsRightPressed() => IsMouseButtonPressed(MouseButton.Right);
 }

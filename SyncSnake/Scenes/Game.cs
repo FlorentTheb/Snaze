@@ -4,6 +4,7 @@ using GameTool;
 
 public class Game : IScene
 {
+    private int CurrentLevel;
     private const int CellNumber = 19;
     private const int CellSize = 30;
     private List<Grid<int>> Grids = new List<Grid<int>>();
@@ -11,6 +12,7 @@ public class Game : IScene
 
     public Game()
     {
+        CurrentLevel = 1;
         Grids.Add(new Grid<int>(CellNumber, CellNumber));
         Grids.Add(new Grid<int>(CellNumber, CellNumber));
         InitCells();
@@ -20,19 +22,7 @@ public class Game : IScene
 
     private void InitCells()
     {
-        for (int row = 0; row < Grids[0].Rows; row++)
-        {
-            for (int column = 0; column < Grids[0].Columns; column++)
-            {
-                Grids[0].SetCell(row, column, 0);
-                Grids[1].SetCell(row, column, 0);
-            }
-        }
-        Grids[0].SetCell(10, 10, 2);
-        Grids[1].SetCell(15, 7, 2);
-        Grids[0].SetCell(4, 15, 3);
-        Grids[0].SetCell(3, 5, 3);
-        Grids[1].SetCell(7, 7, 4);
+        LoadLevel();
     }
 
     public void Update()
@@ -88,8 +78,44 @@ public class Game : IScene
         return new Point(posX, posY);
     }
 
+    private (int, int, int)? GetGridCell(int posX, int posY)
+    {
+        if (posY > 210 && posY <= 780)
+        {
+            if (posX > 20 && posX <= 590)
+            {
+                int column = (posX - 20) / 30;
+                int row = (posY - 210) / 30;
+                return (0, row, column);
+            }
+            else if (posX > 610 && posX <= 1180)
+            {
+                int column = (posX - 610) / 30;
+                int row = (posY - 210) / 30;
+                return (1, row, column);
+            }
+        }
+        return null;
+    }
+
     private void CheckInputs()
     {
+        if (Mouse.IsLeftPressed())
+        {
+            (int, int, int)? gridIndexCellValuePair = GetGridCell(Mouse.GetX(), Mouse.GetY());
+            if (gridIndexCellValuePair != null)
+            {
+                int gridIndex = gridIndexCellValuePair.Value.Item1;
+                int row = gridIndexCellValuePair.Value.Item2;
+                int column = gridIndexCellValuePair.Value.Item3;
+
+                if (Grids[gridIndex].GetCell(row, column) == 0)
+                    Grids[gridIndex].SetCell(row, column, 2);
+                else if (Grids[gridIndex].GetCell(row, column) == 2)
+                    Grids[gridIndex].SetCell(row, column, 0);
+            }
+
+        }
         List<string> nextMoveResults = new();
         if (Keyboard.IsKeyPressed("Z"))
         {
@@ -128,6 +154,36 @@ public class Game : IScene
 
                 if (result == "Empty" || result == "Apple" || result == "Bomb")
                     Snakes[snakeIndex].HasToMove = true;
+            }
+        }
+    }
+
+    public void LoadLevel()
+    {
+        if (CurrentLevel == 1)
+            LoadLevelOne();
+    }
+
+    public void LoadLevelOne()
+    {
+
+        for (int row = 0; row < Grids[0].Rows; row++)
+        {
+            for (int column = 0; column < Grids[0].Columns; column++)
+            {
+                if (row < 6 || row > Grids[0].Rows - 7 || column < 6 || column > Grids[0].Columns - 7)
+                {
+                    Grids[0].SetCell(row, column, 2);
+                    Grids[1].SetCell(row, column, 2);
+                }
+                else
+                {
+                    Grids[0].SetCell(row, column, 0);
+                    Grids[1].SetCell(row, column, 0);
+                }
+
+                Grids[0].SetCell(8, 10, 2);
+                Grids[1].SetCell(7, 10, 2);
             }
         }
     }
