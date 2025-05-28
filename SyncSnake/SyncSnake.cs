@@ -6,7 +6,6 @@ public class SyncSnake
     public static void Main()
     {
         InitWindow(1200, 800, "SyncSnake");
-        GameTimer.Set(3);
         while (!WindowShouldClose())
         {
             BeginDrawing();
