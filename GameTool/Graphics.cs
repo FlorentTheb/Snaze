@@ -13,6 +13,7 @@ public static class Graphics
         { "Blue", Color.Blue },
         { "LightGray", Color.LightGray },
         { "DarkGray", Color.DarkGray },
+        { "Brown", Color.Brown },
     };
     public static void DrawRectangle(int posX, int posY, int width, int height, string color)
     {
