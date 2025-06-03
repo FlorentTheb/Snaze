@@ -11,4 +11,8 @@
     <ProjectReference Include="..\GameTool\GameTool.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
 </Project>
