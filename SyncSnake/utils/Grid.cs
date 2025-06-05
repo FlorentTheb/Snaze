@@ -14,8 +14,8 @@ public class Grid : GenericGrid<CellType>
 
     public Point GetCellPixelsFromIndexes(int columnIndex, int rowIndex)
     {
-        int posX = OffSet.X + columnIndex * CellSize + (int)(0.5 * CellSize);
-        int posY = OffSet.Y + rowIndex * CellSize + (int)(0.5 * CellSize);
+        int posX = OffSet.X + columnIndex * CellSize;
+        int posY = OffSet.Y + rowIndex * CellSize;
         return new Point(posX, posY);
     }
 
