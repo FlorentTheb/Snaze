@@ -2,12 +2,13 @@
 using System.Data.Common;
 
 namespace GameTool;
-public class Grid<T>
+
+public abstract class GenericGrid<T>
 {
-    public int Rows { get; protected set; }
     public int Columns { get; protected set; }
+    public int Rows { get; protected set; }
     protected T[,] cells;
-    public Grid(int rows, int columns)
+    public GenericGrid(int rows, int columns)
     {
         Rows = rows;
         Columns = columns;
