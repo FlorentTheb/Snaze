@@ -11,8 +11,8 @@ public class Game : IScene
     public Game()
     {
         CurrentLevel = 1;
-        Grids.Add(new Grid(new Point(20, 210)));
-        Grids.Add(new Grid(new Point(610, 210)));
+        Grids.Add(new Grid(0));
+        Grids.Add(new Grid(1));
         InitCells();
         Snakes.Add(new Snake(Grids[0], "Blue"));
         Snakes.Add(new Snake(Grids[1], "Pink"));
@@ -131,10 +131,8 @@ public class Game : IScene
                 Grids[0].SetCell(8, 10, CellType.Wall);
                 Grids[1].SetCell(7, 10, CellType.Wall);
 
-                Grids[0].SetCell(7, 7, CellType.Apple);
-                Grids[1].SetCell(11, 7, CellType.Apple);
-                Grids[1].SetCell(11, 10, CellType.Apple);
-                Grids[0].SetCell(11, 10, CellType.Bomb);
+                Grids[0].UpdateGoals(new Point(7, 7), new Point(11, 10));
+                Grids[1].UpdateGoals(new Point(11, 7), new Point(11, 11));
             }
         }
     }
