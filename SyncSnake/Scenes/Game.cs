@@ -5,8 +5,6 @@ using GameTool;
 public class Game : IScene
 {
     private int CurrentLevel;
-    private const int CellNumber = 19;
-    private const int CellSize = 30;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
 
@@ -38,8 +36,16 @@ public class Game : IScene
     {
         DrawGrids();
         DrawSnakes();
+        DrawResult();
     }
 
+    public void DrawResult()
+    {
+        string result = "Temporary result";
+        int height = 30;
+        int width = Graphics.GetTextWidth(result, height);
+        Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
+    }
     public void DrawGrids()
     {
         foreach (var grid in Grids)
