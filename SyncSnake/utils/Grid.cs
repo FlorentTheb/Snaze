@@ -41,18 +41,24 @@ public class Grid : GenericGrid<CellType>
             {
                 string color = "";
                 if ((GetCell(row, column) == CellType.Empty) || (GetCell(row, column) == CellType.Snake))
-                    color = "DarkGray";
+                    color = "Gray";
                 else if (GetCell(row, column) == CellType.Wall)
-                    color = "White";
+                    color = "DarkGray";
                 else if (GetCell(row, column) == CellType.Apple)
                     color = "Red";
                 else if (GetCell(row, column) == CellType.Bomb)
                     color = "Brown";
 
                 Point coords = GetCellPixelsFromIndexes(column, row);
-                Graphics.DrawSquare(coords.X, coords.Y, CellSize, "Black");
-                if (color != "")
-                    Graphics.DrawSquare(coords.X, coords.Y, CellSize - 1, color);
+                if (GetCell(row, column) == CellType.Wall)
+                    Graphics.DrawSquare(coords.X, coords.Y, CellSize, color);
+
+                else
+                {
+                    Graphics.DrawSquare(coords.X, coords.Y, CellSize, "Black");
+                    if (color != "")
+                        Graphics.DrawSquare(coords.X, coords.Y, CellSize - 1, color);
+                }
             }
         }
     }

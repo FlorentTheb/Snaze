@@ -9,7 +9,7 @@ public class SyncSnake
         while (!WindowShouldClose())
         {
             BeginDrawing();
-            ClearBackground(Color.Black);
+            ClearBackground(Color.Gray);
             SceneManager.Update();
             SceneManager.Draw();
             EndDrawing();

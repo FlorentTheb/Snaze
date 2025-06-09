@@ -54,6 +54,8 @@ public class Snake
     {
         if (SnakeParts.Count > 3)
         {
+            Grid.SetCell(SnakeParts[^1].Coordinates.Y, SnakeParts[^1].Coordinates.X, CellType.Empty);
+
             SnakeParts.RemoveAt(SnakeParts.Count - 1);
             LengthModifier++;
         }
