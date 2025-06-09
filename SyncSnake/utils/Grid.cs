@@ -69,14 +69,6 @@ public class Grid : GenericGrid<CellType>
                 string color;
                 switch (GetCell(row, column))
                 {
-                    case CellType.TailGoal:
-                        Graphics.DrawSquare(coords.X - 1, coords.Y - 1, CellSize + 2, "Yellow");
-                        color = "Gray";
-                        break;
-                    case CellType.HeadGoal:
-                        Graphics.DrawSquare(coords.X - 1, coords.Y - 1, CellSize + 2, "Green");
-                        color = "Gray";
-                        break;
                     case CellType.Empty:
                     case CellType.Snake:
                         color = "Gray";
