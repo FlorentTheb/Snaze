@@ -64,22 +64,26 @@ public class Game : IScene
 
     private void CheckInputs()
     {
-        // if (Mouse.IsLeftPressed())
-        // {
-        //     (int, int, int)? gridIndexCellValuePair = GetGridCell(Mouse.GetX(), Mouse.GetY());
-        //     if (gridIndexCellValuePair != null)
-        //     {
-        //         int gridIndex = gridIndexCellValuePair.Value.Item1;
-        //         int row = gridIndexCellValuePair.Value.Item2;
-        //         int column = gridIndexCellValuePair.Value.Item3;
+        if (Mouse.IsLeftPressed())
+        {
+            Point? clickedGridIndexes;
+            int gridIndex = 0;
+            clickedGridIndexes = Grids[gridIndex].GetCellIndexesFromPixels(Mouse.GetX(), Mouse.GetY());
 
-        //         if (Grids[gridIndex].GetCell(row, column) == 0)
-        //             Grids[gridIndex].SetCell(row, column, 2);
-        //         else if (Grids[gridIndex].GetCell(row, column) == 2)
-        //             Grids[gridIndex].SetCell(row, column, 0);
-        //     }
+            if (clickedGridIndexes == null)
+                gridIndex = 1;
+            clickedGridIndexes = Grids[gridIndex].GetCellIndexesFromPixels(Mouse.GetX(), Mouse.GetY());
 
-        // }
+            if (clickedGridIndexes != null)
+            {
+                int row = clickedGridIndexes.Value.Y;
+                int column = clickedGridIndexes.Value.X;
+                if (Grids[gridIndex].GetCell(row, column) == CellType.Empty)
+                    Grids[gridIndex].SetCell(row, column, CellType.Wall);
+                else if (Grids[gridIndex].GetCell(row, column) == CellType.Wall)
+                    Grids[gridIndex].SetCell(row, column, CellType.Empty);
+            }
+        }
         List<string> nextMoveResults = new();
         string direction = "";
         if (Keyboard.IsKeyPressed("Z"))
