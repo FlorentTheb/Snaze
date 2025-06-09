@@ -17,6 +17,8 @@ public static class Graphics
         { "Gray", Color.Gray },
         { "Brown", Color.Brown },
         { "Pink", Color.Pink },
+        { "Yellow", Color.Yellow },
+        { "Beige", Color.Beige },
     };
 
     public static Color GetColorFromString(string color)
