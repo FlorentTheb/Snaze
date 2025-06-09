@@ -6,5 +6,7 @@ public enum CellType
     Snake,
     Wall,
     Apple,
-    Bomb
+    Bomb,
+    HeadGoal,
+    TailGoal
 }
