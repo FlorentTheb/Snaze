@@ -36,14 +36,11 @@ public static class Coordinates
 
     public static string VectorToString(Vector2 direction)
     {
-        return direction.ToString() switch
-        {
-            "{X:1 Y:0}" => "Right",
-            "{X:-1 Y:0}" => "Left",
-            "{X:0 Y:-1}" => "Up",
-            "{X:0 Y:1}" => "Down",
-            _ => throw new ArgumentException($"Direction '{direction}' is invalid. Must be a valid vector with X and Y")
-        };
+        if (direction == new Vector2(1, 0)) return "Right";
+        if (direction == new Vector2(0, 1)) return "Down";
+        if (direction == new Vector2(-1, 0)) return "Left";
+        if (direction == new Vector2(0, -1)) return "Up";
+        throw new ArgumentException($"Direction '{direction}' is invalid. Must be a valid vector with X and Y");
     }
     public static float VectorToAngle(Vector2 direction)
     {
