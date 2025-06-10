@@ -9,6 +9,11 @@ public static class InputsManager
         direction = newDirection;
     }
 
+    public static void Reset()
+    {
+        direction = "";
+    }
+
     public static void CheckKeyboard()
     {
         string[] keys = { "Z", "Q", "S", "D" };

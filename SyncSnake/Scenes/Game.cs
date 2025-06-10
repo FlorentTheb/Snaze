@@ -16,7 +16,7 @@ public class Game : IScene
         InitCells();
         Snakes.Add(new Snake(Grids[0], "Blue"));
         Snakes.Add(new Snake(Grids[1], "Pink"));
-        GameTimer.Set(1);
+        GameTimer.Set(3);
     }
 
     private void InitCells()
@@ -35,10 +35,10 @@ public class Game : IScene
             for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
             {
                 string currentDirection = InputsManager.direction != "" ? InputsManager.direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
-                Snakes[snakeIndex].UpdateNextLength(Snakes[1 - snakeIndex].CheckHeadNextMove(currentDirection));
+                Snakes[1 - snakeIndex].UpdateNextLength(Snakes[snakeIndex].CheckHeadNextMove(currentDirection));
             }
             GameTimer.Reset();
-
+            InputsManager.Reset();
         }
         foreach (var snake in Snakes)
         {
@@ -62,7 +62,10 @@ public class Game : IScene
         int timeRemaining = (int)GameTimer.TimerLimit - (int)GameTimer.TimeElapsed;
         string timeRemainingString = timeRemaining.ToString();
         int width2 = Graphics.GetTextWidth(timeRemainingString, height);
+        string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
+        int width3 = Graphics.GetTextWidth(wishedDirection, height);
         Graphics.DrawText(timeRemaining.ToString(), Screen.GetWidth() / 2 - width2 / 2, 4 * height, height, "Green");
+        Graphics.DrawText(wishedDirection, Screen.GetWidth() / 2 + 2 * width2, 4 * height, height, "Green");
     }
     public void DrawGrids()
     {
