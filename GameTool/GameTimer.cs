@@ -34,12 +34,14 @@ public static class GameTimer
         TimerLimit = null;
     }
 
+    public static void Reset()
+    {
+        IsRunning = true;
+        TimeElapsed = 0;
+    }
+
     public static bool Update()
     {
-        if (!IsRunning || TimerLimit is null)
-            return false;
-
-
         if (TimeElapsed >= TimerLimit)
         {
             IsRunning = false;
