@@ -63,51 +63,66 @@ public class Snake
             LengthModifier = 0;
     }
 
-    public int CheckHeadNextMove(string direction)
+    public bool IsNextCellAvailable(Vector2 nextDirection)
     {
-        Vector2 wishedDirection = Coordinates.StringToVector(direction);
-        int nextPosX = SnakeParts[0].Coordinates.X + (int)wishedDirection.X;
-        int nextPosY = SnakeParts[0].Coordinates.Y + (int)wishedDirection.Y;
-
+        int nextPosX = SnakeParts[0].Coordinates.X + (int)nextDirection.X;
+        int nextPosY = SnakeParts[0].Coordinates.Y + (int)nextDirection.Y;
         if (!Grid.IsInBounds(nextPosY, nextPosX))
-        {
-            CanMove = false;
-            return 0;
-        }
+            return false;
         else
         {
             CellType gridValue = Grid.GetCell(nextPosY, nextPosX);
             switch (gridValue)
             {
-                case CellType.Empty: // empty
-                    SnakeParts[0].Direction = wishedDirection;
-                    CanMove = true;
-                    return 0;
                 case CellType.Snake: // snake
                     if (SnakeParts[^1].Coordinates.X == nextPosX && SnakeParts[^1].Coordinates.Y == nextPosY)
-                    {
-                        SnakeParts[0].Direction = wishedDirection;
-                        CanMove = true;
-                    }
-                    else CanMove = false;
-                    return 0;
+                        return true;
+                    else return false;
+                case CellType.Apple: // apple
+                case CellType.Bomb: // bomb
+                case CellType.Empty: // empty
+                    return true;
                 case CellType.Wall: // wall
-                    CanMove = false;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    public int CheckHeadNextMove(string direction)
+    {
+        Vector2 wishedDirection = Coordinates.StringToVector(direction);
+        bool nextCellEmpty = false;
+        if (IsNextCellAvailable(wishedDirection))
+        {
+            SnakeParts[0].Direction = wishedDirection;
+            nextCellEmpty = true;
+        }
+        else if (IsNextCellAvailable(SnakeParts[0].Direction))
+            nextCellEmpty = true;
+
+        if (nextCellEmpty)
+        {
+            CanMove = true;
+            int nextPosX = SnakeParts[0].Coordinates.X + (int)SnakeParts[0].Direction.X;
+            int nextPosY = SnakeParts[0].Coordinates.Y + (int)SnakeParts[0].Direction.Y;
+
+            CellType gridValue = Grid.GetCell(nextPosY, nextPosX);
+            switch (gridValue)
+            {
+                case CellType.Empty: // empty
+                case CellType.Snake: // snake
                     return 0;
                 case CellType.Apple: // apple
-                    SnakeParts[0].Direction = wishedDirection;
-                    CanMove = true;
                     UpdateNextLength(1);
                     return 1;
                 case CellType.Bomb: // bomb
-                    SnakeParts[0].Direction = wishedDirection;
-                    CanMove = true;
                     return -1;
                 default:
-                    CanMove = false;
                     return 0;
             }
         }
+        return 0;
     }
 
     public void Move()
