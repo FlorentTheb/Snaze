@@ -16,6 +16,7 @@ public class Game : IScene
         InitCells();
         Snakes.Add(new Snake(Grids[0], "Blue"));
         Snakes.Add(new Snake(Grids[1], "Pink"));
+        GameTimer.Set(1);
     }
 
     private void InitCells()
@@ -25,7 +26,20 @@ public class Game : IScene
 
     public void Update()
     {
-        CheckInputs();
+        CheckMouseInputs();
+
+        if (!GameTimer.Update())
+            InputsManager.CheckKeyboard();
+        else
+        {
+            for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
+            {
+                string currentDirection = InputsManager.direction != "" ? InputsManager.direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
+                Snakes[snakeIndex].UpdateNextLength(Snakes[1 - snakeIndex].CheckHeadNextMove(currentDirection));
+            }
+            GameTimer.Reset();
+
+        }
         foreach (var snake in Snakes)
         {
             snake.Update();
@@ -45,6 +59,10 @@ public class Game : IScene
         int height = 30;
         int width = Graphics.GetTextWidth(result, height);
         Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
+        int timeRemaining = (int)GameTimer.TimerLimit - (int)GameTimer.TimeElapsed;
+        string timeRemainingString = timeRemaining.ToString();
+        int width2 = Graphics.GetTextWidth(timeRemainingString, height);
+        Graphics.DrawText(timeRemaining.ToString(), Screen.GetWidth() / 2 - width2 / 2, 4 * height, height, "Green");
     }
     public void DrawGrids()
     {
@@ -62,7 +80,7 @@ public class Game : IScene
         }
     }
 
-    private void CheckInputs()
+    private void CheckMouseInputs()
     {
         if (Mouse.IsLeftPressed())
         {
@@ -82,24 +100,6 @@ public class Game : IScene
                     Grids[gridIndex].SetCell(row, column, CellType.Wall);
                 else if (Grids[gridIndex].GetCell(row, column) == CellType.Wall)
                     Grids[gridIndex].SetCell(row, column, CellType.Empty);
-            }
-        }
-        List<string> nextMoveResults = new();
-        string direction = "";
-        if (Keyboard.IsKeyPressed("Z"))
-            direction = "Up";
-        else if (Keyboard.IsKeyPressed("Q"))
-            direction = "Left";
-        else if (Keyboard.IsKeyPressed("S"))
-            direction = "Down";
-        else if (Keyboard.IsKeyPressed("D"))
-            direction = "Right";
-
-        if (direction != "") // A key has been pressed
-        {
-            for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
-            {
-                Snakes[snakeIndex].UpdateNextLength(Snakes[1 - snakeIndex].CheckHeadNextMove(direction));
             }
         }
     }
@@ -130,6 +130,12 @@ public class Game : IScene
 
                 Grids[0].SetCell(8, 10, CellType.Wall);
                 Grids[1].SetCell(7, 10, CellType.Wall);
+
+                Grids[0].SetCell(6, 6, CellType.Apple);
+                Grids[0].SetCell(7, 6, CellType.Apple);
+                Grids[0].SetCell(8, 6, CellType.Apple);
+                Grids[0].SetCell(9, 6, CellType.Apple);
+                Grids[0].SetCell(10, 6, CellType.Apple);
 
                 Grids[0].UpdateGoals(new Point(7, 7), new Point(11, 10));
                 Grids[1].UpdateGoals(new Point(11, 7), new Point(11, 11));
