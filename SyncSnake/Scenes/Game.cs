@@ -59,13 +59,13 @@ public class Game : IScene
         int height = 30;
         int width = Graphics.GetTextWidth(result, height);
         Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
-        int timeRemaining = (int)GameTimer.TimerLimit - (int)GameTimer.TimeElapsed;
-        string timeRemainingString = timeRemaining.ToString();
+        float timeRemaining = GameTimer.GetRemainingTime();
+        string timeRemainingString = timeRemaining.ToString("n2");
         int width2 = Graphics.GetTextWidth(timeRemainingString, height);
         string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
         int width3 = Graphics.GetTextWidth(wishedDirection, height);
-        Graphics.DrawText(timeRemaining.ToString(), Screen.GetWidth() / 2 - width2 / 2, 4 * height, height, "Green");
-        Graphics.DrawText(wishedDirection, Screen.GetWidth() / 2 + 2 * width2, 4 * height, height, "Green");
+        Graphics.DrawText(timeRemainingString, Screen.GetWidth() / 2 - width2 / 2, 4 * height, height, "Green");
+        Graphics.DrawText(wishedDirection, Screen.GetWidth() / 2 - width3 / 2, 5 * height, height, "Green");
     }
     public void DrawGrids()
     {

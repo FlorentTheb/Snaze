@@ -5,16 +5,14 @@ namespace GameTool;
 
 public static class GameTimer
 {
-    public static float? TimerLimit { get; private set; } = null;
+    public static float TimerLimit { get; private set; } = 0f;
     public static bool IsRunning { get; private set; } = false;
     public static float TimeElapsed { get; private set; }
-    public static float OneSecondTreshold { get; private set; }
     public static float GetDeltaFrame() => GetFrameTime();
     public static void Set(float limit)
     {
         IsRunning = true;
         TimeElapsed = 0f;
-        OneSecondTreshold = 0f;
         TimerLimit = limit;
         Console.WriteLine($"Time left => {(int)TimerLimit} seconds");
     }
@@ -22,7 +20,7 @@ public static class GameTimer
     public static void Pause() => IsRunning = false;
     public static void Resume()
     {
-        if (TimerLimit is null)
+        if (TimerLimit == 0f)
             throw new InvalidOperationException($"Timer method 'Set' was not called => '{nameof(TimerLimit)}' is NULL");
         IsRunning = true;
     }
@@ -31,7 +29,7 @@ public static class GameTimer
     {
         IsRunning = false;
         TimeElapsed = 0f;
-        TimerLimit = null;
+        TimerLimit = 0f;
     }
 
     public static void Reset()
@@ -47,13 +45,14 @@ public static class GameTimer
             IsRunning = false;
             return true;
         }
-        if (OneSecondTreshold >= 1)
-        {
-            OneSecondTreshold = 0;
-            Console.WriteLine($"Time left => {(int)TimerLimit - (int)TimeElapsed} seconds");
-        }
         TimeElapsed += GetDeltaFrame();
-        OneSecondTreshold += GetDeltaFrame();
         return false;
+    }
+
+    public static float GetRemainingTime()
+    {
+        if (TimeElapsed < TimerLimit)
+            return TimerLimit - TimeElapsed;
+        else return 0f;
     }
 }
