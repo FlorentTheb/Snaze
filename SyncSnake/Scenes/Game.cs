@@ -139,6 +139,7 @@ public class Game : IScene
                 Grids[0].SetCell(8, 6, CellType.Apple);
                 Grids[0].SetCell(9, 6, CellType.Apple);
                 Grids[0].SetCell(10, 6, CellType.Apple);
+                Grids[1].SetCell(12, 12, CellType.Bomb);
             }
         }
     }

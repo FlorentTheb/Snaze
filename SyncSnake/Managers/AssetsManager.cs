@@ -16,7 +16,9 @@ public static class AssetsManager
         Raylib.LoadTexture("Assets/sprites/snake_body_corner_left.png"),
         Raylib.LoadTexture("Assets/sprites/snake_tail.png"),
         Raylib.LoadTexture("Assets/sprites/head_goal.png"),
-        Raylib.LoadTexture("Assets/sprites/tail_goal.png")
+        Raylib.LoadTexture("Assets/sprites/tail_goal.png"),
+        Raylib.LoadTexture("Assets/sprites/apple.png"),
+        Raylib.LoadTexture("Assets/sprites/bomb.png")
     };
 
     public static void DrawSprite(int spriteIndex, int posX, int posY, float spriteAngle, string color, int alpha) =>

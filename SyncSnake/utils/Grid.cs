@@ -64,26 +64,26 @@ public class Grid : GenericGrid<CellType>
             {
                 Point coords = GetCellPixelsFromIndexes(column, row);
                 string color;
-                switch (GetCell(row, column))
+                switch (GetCell(row, column)) // Cell Background
                 {
                     case CellType.Empty:
                     case CellType.Snake:
+                    case CellType.Apple:
+                    case CellType.Bomb:
                         color = "Gray";
                         break;
                     case CellType.Wall:
                         color = "DarkGray";
-                        break;
-                    case CellType.Apple:
-                        color = "Red";
-                        break;
-                    case CellType.Bomb:
-                        color = "Brown";
                         break;
                     default:
                         color = "Black";
                         break;
                 }
                 Graphics.DrawSquare(coords.X, coords.Y, CellSize, color);
+                if (GetCell(row, column) == CellType.Apple)
+                    AssetsManager.DrawSprite(7, coords.X, coords.Y, 0f, "White", 255);
+                else if (GetCell(row, column) == CellType.Bomb)
+                    AssetsManager.DrawSprite(8, coords.X, coords.Y, 0f, "White", 255);
             }
         }
         DrawObjectives();
