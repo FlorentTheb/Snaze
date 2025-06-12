@@ -5,12 +5,13 @@ using Managers;
 
 public class Grid : GenericGrid<CellType>
 {
+    public bool isResolved = false;
     private const int CellNumber = 19;
     private const int CellSize = 30;
     private const int CellOffset = 2;
     private const int Size = CellNumber * CellSize + (CellNumber - 1) * CellOffset;
     private Point Start;
-    private Objective[] Objectives = new Objective[2];
+    public Objective[] Objectives = new Objective[2];
     public readonly int Index;
     public Grid(int index, Point headGoalCoords, Point tailGoalCoords, string headGoalDirection, string tailGoalDirection) : base(CellNumber, CellNumber)
     {

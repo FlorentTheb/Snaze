@@ -30,6 +30,20 @@ public class Snake
         LengthModifier += newLength;
     }
 
+    public bool AreElementsInExactSamePosition(Point coords_1, Point coords_2, Vector2 direction_1, Vector2 direction_2)
+    {
+        bool sameCoords = coords_1.Equals(coords_2);
+        bool sameDirection = direction_1.Equals(direction_2);
+        return sameCoords && sameDirection;
+    }
+
+    public void UpdatePuzzleResult()
+    {
+        bool headResult = AreElementsInExactSamePosition(SnakeParts[0].Coordinates, Grid.Objectives[0].Coordinates, SnakeParts[0].Direction, Grid.Objectives[0].Direction);
+        bool tailResult = AreElementsInExactSamePosition(SnakeParts[^1].Coordinates, Grid.Objectives[1].Coordinates, SnakeParts[^1].Direction, Grid.Objectives[1].Direction);
+        Grid.isResolved = headResult && tailResult;
+    }
+
     public void Update()
     {
         if (LengthModifier < 0)
@@ -42,6 +56,7 @@ public class Snake
 
         UpdatePartsColor();
         UpdatePartsSpriteIndex();
+        UpdatePuzzleResult();
     }
 
     public void Extend()

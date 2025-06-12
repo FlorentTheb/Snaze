@@ -5,6 +5,8 @@ using GameTool;
 public class Game : IScene
 {
     private int CurrentLevel;
+
+    private bool isCurrentLevelResolved = false;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
 
@@ -23,21 +25,29 @@ public class Game : IScene
     {
         CheckMouseInputs();
 
-        if (!GameTimer.Update())
-            InputsManager.CheckKeyboard();
+        if (Grids[0].isResolved && Grids[1].isResolved)
+        {
+            isCurrentLevelResolved = true;
+            GameTimer.Stop();
+        }
         else
         {
-            for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
+            if (!GameTimer.Update())
+                InputsManager.CheckKeyboard();
+            else
             {
-                string currentDirection = InputsManager.direction != "" ? InputsManager.direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
-                Snakes[1 - snakeIndex].UpdateNextLength(Snakes[snakeIndex].CheckHeadNextMove(currentDirection));
+                for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
+                {
+                    string currentDirection = InputsManager.direction != "" ? InputsManager.direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
+                    Snakes[1 - snakeIndex].UpdateNextLength(Snakes[snakeIndex].CheckHeadNextMove(currentDirection));
+                }
+                GameTimer.Reset();
+                InputsManager.Reset();
             }
-            GameTimer.Reset();
-            InputsManager.Reset();
-        }
-        foreach (var snake in Snakes)
-        {
-            snake.Update();
+            foreach (var snake in Snakes)
+            {
+                snake.Update();
+            }
         }
     }
 
@@ -50,7 +60,7 @@ public class Game : IScene
 
     public void DrawResult()
     {
-        string result = "Temporary result";
+        string result = isCurrentLevelResolved ? "Victory" : "Resolving ...";
         int height = 30;
         int width = Graphics.GetTextWidth(result, height);
         Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
@@ -110,8 +120,8 @@ public class Game : IScene
 
     public void LoadLevelOne()
     {
-        Grids.Add(new Grid(0, new Point(0, 0), new Point(11, 10), "Right", "Up"));
-        Grids.Add(new Grid(1, new Point(11, 7), new Point(11, 11), "Down", "Left"));
+        Grids.Add(new Grid(0, new Point(12, 9), new Point(10, 9), "Right", "Right"));
+        Grids.Add(new Grid(1, new Point(11, 8), new Point(10, 9), "Right", "Up"));
         Snakes.Add(new Snake(Grids[0]));
         Snakes.Add(new Snake(Grids[1]));
         GameTimer.Set(3);
