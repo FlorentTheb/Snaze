@@ -50,11 +50,11 @@ public static class Graphics
         Color raylibColor = GetColorFromString(color);
 
         Rectangle source = new Rectangle(0, 0, image.Width, image.Height);
-        float originX = (image.Width - 1) / 2f;
-        float originY = (image.Height - 1) / 2f;
+        float originX = image.Width / 2f;
+        float originY = image.Height / 2f;
         Rectangle dest = new Rectangle(
-            posX + originX,
-            posY + originY,
+            posX + originX - 1,
+            posY + originY - 1,
             image.Width,
             image.Height
         );
