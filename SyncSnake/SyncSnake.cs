@@ -5,7 +5,7 @@ public class SyncSnake
 {
     public static void Main()
     {
-        InitWindow(1200, 800, "SyncSnake");
+        InitWindow(1330, 900, "SyncSnake");
         while (!WindowShouldClose())
         {
             BeginDrawing();
