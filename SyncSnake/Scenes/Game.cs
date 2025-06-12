@@ -60,7 +60,7 @@ public class Game : IScene
         int width = Graphics.GetTextWidth(result, height);
         Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
         float timeRemaining = GameTimer.GetRemainingTime();
-        string timeRemainingString = timeRemaining.ToString("n2");
+        string timeRemainingString = timeRemaining.ToString("n1");
         int width2 = Graphics.GetTextWidth(timeRemainingString, height);
         string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
         int width3 = Graphics.GetTextWidth(wishedDirection, height);

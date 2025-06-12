@@ -11,6 +11,10 @@ public static class Keyboard
         { "Q", KeyboardKey.A },
         { "S", KeyboardKey.S },
         { "D", KeyboardKey.D },
+        { "Up", KeyboardKey.Up },
+        { "Left", KeyboardKey.Left },
+        { "Down", KeyboardKey.Down },
+        { "Right", KeyboardKey.Right },
     };
     public static bool IsKeyPressed(string keyString)
     {

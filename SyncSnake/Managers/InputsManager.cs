@@ -16,7 +16,7 @@ public static class InputsManager
 
     public static void CheckKeyboard()
     {
-        string[] keys = { "Z", "Q", "S", "D" };
+        string[] keys = { "Z", "Q", "S", "D", "Up", "Left", "Down", "Right" };
 
         foreach (var key in keys)
         {
@@ -35,6 +35,10 @@ public static class InputsManager
             "Q" => "Left",
             "S" => "Down",
             "D" => "Right",
+            "Up" => "Up",
+            "Left" => "Left",
+            "Down" => "Down",
+            "Right" => "Right",
             _ => "_"
         };
     }
