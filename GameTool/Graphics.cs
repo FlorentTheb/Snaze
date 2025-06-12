@@ -11,7 +11,12 @@ public static class Graphics
         { "White", Color.White },
         { "Red", Color.Red },
         { "Green", Color.Green },
+        { "DarkBlue", Color.DarkBlue },
         { "Blue", Color.Blue },
+        { "SkyBlue", Color.SkyBlue },
+        { "DarkPurple", Color.DarkPurple },
+        { "Violet", Color.Violet },
+        { "Purple", Color.Purple },
         { "LightGray", Color.LightGray },
         { "DarkGray", Color.DarkGray },
         { "Gray", Color.Gray },
@@ -40,22 +45,23 @@ public static class Graphics
         DrawRectangle(posX, posY, sideLength, sideLength, color);
     }
 
-    public static void DrawImage(int posX, int posY, string color, Texture2D image, float angle)
+    public static void DrawImage(int posX, int posY, string color, Texture2D image, float angle, int alpha)
     {
         Color raylibColor = GetColorFromString(color);
 
         Rectangle source = new Rectangle(0, 0, image.Width, image.Height);
+        float originX = (image.Width - 1) / 2f;
+        float originY = (image.Height - 1) / 2f;
         Rectangle dest = new Rectangle(
-            posX + image.Width / 2f,
-            posY + image.Height / 2f,
+            posX + originX,
+            posY + originY,
             image.Width,
             image.Height
         );
-        Vector2 origin = new Vector2(image.Width / 2f, image.Height / 2f);
+        Vector2 origin = new Vector2(originX, originY);
 
+        raylibColor.A = (byte)alpha;
         Raylib.DrawTexturePro(image, source, dest, origin, angle, raylibColor);
-
-        // Raylib.UnloadTexture(image);
     }
 
     public static void DrawText(string text, int posX, int posY, int fontSize, string color)

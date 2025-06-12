@@ -9,20 +9,19 @@ using Managers;
 using static Raylib_cs.Raylib;
 public class Snake
 {
-    public string Color;
     public List<SnakePart> SnakeParts = new();
     public bool CanMove = false;
     public int LengthModifier = 0;
     private readonly Grid Grid;
-    public Snake(Grid grid, string color)
+    public Snake(Grid grid)
     {
         Grid = grid;
-        Color = color;
         SnakeParts.Add(new SnakePart(new Point(10, 9), "Right"));
         SnakeParts.Add(new SnakePart(new Point(9, 9)));
         SnakeParts.Add(new SnakePart(new Point(8, 9)));
         UpdatePartsDirections();
         UpdatePartsSpriteIndex();
+        UpdatePartsColor();
         UpdateSnakeCells();
     }
 
@@ -41,6 +40,7 @@ public class Snake
         if (CanMove)
             Move();
 
+        UpdatePartsColor();
         UpdatePartsSpriteIndex();
     }
 
@@ -74,15 +74,15 @@ public class Snake
             CellType gridValue = Grid.GetCell(nextPosY, nextPosX);
             switch (gridValue)
             {
-                case CellType.Snake: // snake
+                case CellType.Snake:
                     if (SnakeParts[^1].Coordinates.X == nextPosX && SnakeParts[^1].Coordinates.Y == nextPosY)
                         return true;
                     else return false;
-                case CellType.Apple: // apple
-                case CellType.Bomb: // bomb
-                case CellType.Empty: // empty
+                case CellType.Apple:
+                case CellType.Bomb:
+                case CellType.Empty:
                     return true;
-                case CellType.Wall: // wall
+                case CellType.Wall:
                 default:
                     return false;
             }
@@ -155,6 +155,7 @@ public class Snake
 
     public void UpdatePartsSpriteIndex()
     {
+
         SnakeParts[0].SpriteIndex = 0;
         SnakeParts[^1].SpriteIndex = 4;
         for (int partIndex = 1; partIndex < SnakeParts.Count - 1; partIndex++)
@@ -173,6 +174,23 @@ public class Snake
                     SnakeParts[partIndex].SpriteIndex = 2;
                 else SnakeParts[partIndex].SpriteIndex = 3;
             }
+        }
+    }
+
+    public void UpdatePartsColor()
+    {
+        int snakeIndex = Grid.Index;
+
+        for (int partIndex = 0; partIndex < SnakeParts.Count; partIndex++)
+        {
+            if (partIndex == 0)
+                SnakeParts[partIndex].Color = snakeIndex == 0 ? "DarkBlue" : "DarkPurple";
+            else if (partIndex == SnakeParts.Count - 1)
+                SnakeParts[partIndex].Color = snakeIndex == 0 ? "SkyBlue" : "Purple";
+            else
+                SnakeParts[partIndex].Color = snakeIndex == 0 ? "Blue" : "Violet";
+
+
         }
     }
 
@@ -196,27 +214,9 @@ public class Snake
     {
         foreach (var snakePart in SnakeParts)
         {
-            float angle = GameTool.Coordinates.VectorToAngle(snakePart.Direction);
+            float angle = Coordinates.VectorToAngle(snakePart.Direction);
             Point pixelCoords = Grid.GetCellPixelsFromIndexes(snakePart.Coordinates.X, snakePart.Coordinates.Y);
-            AssetsManager.DrawSprite(snakePart.SpriteIndex, pixelCoords.X, pixelCoords.Y, angle, Color);
+            AssetsManager.DrawSprite(snakePart.SpriteIndex, pixelCoords.X, pixelCoords.Y, angle, snakePart.Color, 255);
         }
-    }
-}
-
-public class SnakePart
-{
-    public int SpriteIndex;
-    public Point Coordinates;
-    public Vector2 Direction;
-
-    public SnakePart(Point coordinates, string direction)
-    {
-        Coordinates = coordinates;
-        Direction = GameTool.Coordinates.StringToVector(direction);
-    }
-
-    public SnakePart(Point coordinates)
-    {
-        Coordinates = coordinates;
     }
 }
