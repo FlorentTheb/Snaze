@@ -6,14 +6,17 @@ public class Game : IScene
 {
     private int CurrentLevel;
 
-    private bool isCurrentLevelResolved = false;
+    private bool IsCurrentLevelResolved = false;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
+
+    private IButton RestartButton;
 
     public Game()
     {
         CurrentLevel = 1;
         InitCells();
+        RestartButton = new RoundedButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), ResetLevel);
     }
 
     private void InitCells()
@@ -24,10 +27,10 @@ public class Game : IScene
     public void Update()
     {
         CheckMouseInputs();
-
+        RestartButton.Update();
         if (Grids[0].isResolved && Grids[1].isResolved)
         {
-            isCurrentLevelResolved = true;
+            IsCurrentLevelResolved = true;
             GameTimer.Stop();
         }
         else
@@ -56,21 +59,22 @@ public class Game : IScene
         DrawGrids();
         DrawSnakes();
         DrawResult();
+        RestartButton.Draw();
     }
 
     public void DrawResult()
     {
-        string result = isCurrentLevelResolved ? "Victory" : "Resolving ...";
+        string result = IsCurrentLevelResolved ? "Victory" : "Resolving ...";
         int height = 30;
         int width = Graphics.GetTextWidth(result, height);
-        Graphics.DrawText(result, Screen.GetWidth() / 2 - width / 2, 2 * height, height, "Green");
+        Graphics.DrawText(result, new Raylib_cs.Rectangle(Screen.GetWidth() * 3 / 4, 100, 100, 50), "Green");
         float timeRemaining = GameTimer.GetRemainingTime();
         string timeRemainingString = timeRemaining.ToString("n1");
         int width2 = Graphics.GetTextWidth(timeRemainingString, height);
         string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
         int width3 = Graphics.GetTextWidth(wishedDirection, height);
-        Graphics.DrawText(timeRemainingString, Screen.GetWidth() / 2 - width2 / 2, 4 * height, height, "Green");
-        Graphics.DrawText(wishedDirection, Screen.GetWidth() / 2 - width3 / 2, 5 * height, height, "Green");
+        Graphics.DrawText(timeRemainingString, new Raylib_cs.Rectangle(Screen.GetWidth() / 2, 100, 100, 50), "Green");
+        Graphics.DrawText(wishedDirection, new Raylib_cs.Rectangle(Screen.GetWidth() / 2, 200, 100, 50), "Green");
     }
     public void DrawGrids()
     {
@@ -124,7 +128,7 @@ public class Game : IScene
         Grids.Add(new Grid(1, new Point(11, 8), new Point(10, 9), "Right", "Up"));
         Snakes.Add(new Snake(Grids[0]));
         Snakes.Add(new Snake(Grids[1]));
-        GameTimer.Set(3);
+        GameTimer.Set(2);
         for (int row = 0; row < Grids[0].Rows; row++)
         {
             for (int column = 0; column < Grids[0].Columns; column++)
@@ -152,5 +156,15 @@ public class Game : IScene
                 Grids[1].SetCell(12, 12, CellType.Bomb);
             }
         }
+    }
+
+    public void ResetLevel()
+    {
+        Console.WriteLine("CHECK RESET");
+        Grids.Clear();
+        Snakes.Clear();
+        GameTimer.Stop();
+        IsCurrentLevelResolved = false;
+        LoadLevel();
     }
 }
