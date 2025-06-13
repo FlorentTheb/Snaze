@@ -1,19 +1,19 @@
 using System;
 public class ButtonsManager
 {
-    private List<IButton> BList = [];
+    private List<IButton> ButtonList = [];
     public ButtonsManager()
     {
         ServiceLocator.Register(this);
     }
 
-    public void RegisterButtons(List<IButton> buttonsList)
+    public void RegisterButtons(List<IButton> buttonList)
     {
-        BList = buttonsList;
+        ButtonList = buttonList;
     }
 
     public void Update()
     {
-        
+
     }
 }
