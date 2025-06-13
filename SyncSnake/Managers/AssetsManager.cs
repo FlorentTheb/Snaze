@@ -5,9 +5,12 @@ using GameTool;
 
 namespace Managers;
 
-public static class AssetsManager
+public class AssetsManager
 {
-
+    public AssetsManager()
+    {
+        ServiceLocator.Register(this);
+    }
     private static readonly List<Texture2D> SnakeSprites = new()
     {
         Raylib.LoadTexture("Assets/sprites/snake_head.png"),

@@ -1,8 +1,12 @@
 using System;
 using GameTool;
 
-public static class InputsManager
+public class InputsManager
 {
+    public InputsManager()
+    {
+        ServiceLocator.Register(this);
+    }
     public static string direction { get; private set; } = "";
     private static void Register(string newDirection)
     {
