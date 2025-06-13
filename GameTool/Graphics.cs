@@ -40,6 +40,15 @@ public static class Graphics
         Color raylibColor = GetColorFromString(color);
         Raylib.DrawRectangle(posX, posY, width, height, raylibColor);
     }
+
+    public static void DrawRectangle(Rectangle rec, string color)
+    {
+        if (rec.Width <= 0 || rec.Height <= 0)
+            throw new ArgumentOutOfRangeException($"Width and height should be positive");
+
+        Color raylibColor = GetColorFromString(color);
+        Raylib.DrawRectangleRec(rec, raylibColor);
+    }
     public static void DrawSquare(int posX, int posY, int sideLength, string color)
     {
         DrawRectangle(posX, posY, sideLength, sideLength, color);
@@ -64,11 +73,14 @@ public static class Graphics
         Raylib.DrawTexturePro(image, source, dest, origin, angle, raylibColor);
     }
 
-    public static void DrawText(string text, int posX, int posY, int fontSize, string color)
+    public static void DrawText(string text, Rectangle box, string color)
     {
         Color raylibColor = GetColorFromString(color);
-
-        Raylib.DrawText(text, posX, posY, fontSize, raylibColor);
+        int centerX = (int)(box.X + box.Width / 2);
+        int centerY = (int)(box.Y + box.Height / 2);
+        int textHeight = (int)box.Height / 2;
+        int textWidth = GetTextWidth(text, textHeight);
+        Raylib.DrawText(text, centerX - textWidth / 2, centerY - textHeight / 2, textHeight, raylibColor);
     }
 
     public static int GetTextWidth(string text, int fontSize)
