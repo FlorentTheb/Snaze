@@ -35,7 +35,12 @@ public abstract class SimpleButton : IButton
         IsHovered = Raylib.CheckCollisionPointRec(mousePos, Bounds);
 
         if (!IsHovered)
+        {
             IsPressed = false;
+            Raylib.SetMouseCursor(MouseCursor.Arrow);
+        }
+        else
+            Raylib.SetMouseCursor(MouseCursor.PointingHand);
 
         if (IsHovered && Raylib.IsMouseButtonPressed(MouseButton.Left))
             IsPressed = true;
