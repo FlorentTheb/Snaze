@@ -9,12 +9,14 @@ using Managers;
 using static Raylib_cs.Raylib;
 public class Snake
 {
+    private AssetsManager AM;
     public List<SnakePart> SnakeParts = new();
     public bool CanMove = false;
     public int LengthModifier = 0;
     private readonly Grid Grid;
     public Snake(Grid grid)
     {
+        AM = ServiceLocator.GetService<AssetsManager>();
         Grid = grid;
         SnakeParts.Add(new SnakePart(new Point(10, 9), "Right"));
         SnakeParts.Add(new SnakePart(new Point(9, 9)));
@@ -171,23 +173,23 @@ public class Snake
     public void UpdatePartsSpriteIndex()
     {
 
-        SnakeParts[0].SpriteIndex = 0;
-        SnakeParts[^1].SpriteIndex = 4;
+        SnakeParts[0].SpriteId = SpriteId.SnakeHead;
+        SnakeParts[^1].SpriteId = SpriteId.SnakeTail;
         for (int partIndex = 1; partIndex < SnakeParts.Count - 1; partIndex++)
         {
             var prevCoord = SnakeParts[partIndex - 1].Coordinates;
             var currentCoord = SnakeParts[partIndex].Coordinates;
             var nextCoord = SnakeParts[partIndex + 1].Coordinates;
             if (prevCoord.X == nextCoord.X || prevCoord.Y == nextCoord.Y)
-                SnakeParts[partIndex].SpriteIndex = 1;
+                SnakeParts[partIndex].SpriteId = SpriteId.SnakeBodyStraight;
             else
             {
                 if ((prevCoord.X > nextCoord.X && prevCoord.X == currentCoord.X && prevCoord.Y > nextCoord.Y)
                 || (prevCoord.X < nextCoord.X && prevCoord.Y == currentCoord.Y && prevCoord.Y > nextCoord.Y)
                 || (prevCoord.X < nextCoord.X && prevCoord.X == currentCoord.X && prevCoord.Y < nextCoord.Y)
                 || (prevCoord.X > nextCoord.X && prevCoord.Y == currentCoord.Y && prevCoord.Y < nextCoord.Y))
-                    SnakeParts[partIndex].SpriteIndex = 2;
-                else SnakeParts[partIndex].SpriteIndex = 3;
+                    SnakeParts[partIndex].SpriteId = SpriteId.SnakeBodyCornerRight;
+                else SnakeParts[partIndex].SpriteId = SpriteId.SnakeBodyCornerLeft;
             }
         }
     }
@@ -231,7 +233,7 @@ public class Snake
         {
             float angle = Coordinates.VectorToAngle(snakePart.Direction);
             Point pixelCoords = Grid.GetCellPixelsFromIndexes(snakePart.Coordinates.X, snakePart.Coordinates.Y);
-            AssetsManager.DrawSprite(snakePart.SpriteIndex, pixelCoords.X, pixelCoords.Y, angle, snakePart.Color, 255);
+            Graphics.DrawImage(pixelCoords.X, pixelCoords.Y, snakePart.Color, AM.GetSprite(snakePart.SpriteId), angle, 255);
         }
     }
 }

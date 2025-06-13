@@ -1,19 +1,22 @@
 using System.Drawing;
 using System.Numerics;
 using GameTool;
+using Managers;
 
-public class Game : IScene
+public class GameScene : IScene
 {
     private int CurrentLevel;
 
+    private AssetsManager AM;
     private bool IsCurrentLevelResolved = false;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
 
     private IButton RestartButton;
 
-    public Game()
+    public GameScene()
     {
+        AM = ServiceLocator.GetService<AssetsManager>();
         CurrentLevel = 1;
         InitCells();
         RestartButton = new RoundedButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), ResetLevel);

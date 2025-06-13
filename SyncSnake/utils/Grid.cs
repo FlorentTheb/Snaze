@@ -5,6 +5,7 @@ using Managers;
 
 public class Grid : GenericGrid<CellType>
 {
+    private AssetsManager AM;
     public bool isResolved = false;
     private const int CellNumber = 19;
     private const int CellSize = 30;
@@ -15,9 +16,10 @@ public class Grid : GenericGrid<CellType>
     public readonly int Index;
     public Grid(int index, Point headGoalCoords, Point tailGoalCoords, string headGoalDirection, string tailGoalDirection) : base(CellNumber, CellNumber)
     {
+        AM = ServiceLocator.GetService<AssetsManager>();
         Index = index;
-        Objectives[0] = new Objective(headGoalCoords, headGoalDirection, Index, "Head");
-        Objectives[1] = new Objective(tailGoalCoords, tailGoalDirection, Index, "Tail");
+        Objectives[0] = new Objective(headGoalCoords, headGoalDirection, Index, SpriteId.HeadGoal);
+        Objectives[1] = new Objective(tailGoalCoords, tailGoalDirection, Index, SpriteId.TailGoal);
         int totalGridsWidth = 2 * Size;
         int totalSpacing = Screen.GetWidth() - totalGridsWidth;
         int sideMargin = totalSpacing / 3;
@@ -48,12 +50,11 @@ public class Grid : GenericGrid<CellType>
 
     private void DrawObjectives()
     {
-        for (int obj = 0; obj < Objectives.Length; obj++)
+        foreach (var obj in Objectives)
         {
-            int spriteIndex = Objectives[obj].ObjectiveType == "Head" ? 5 : 6;
-            float angle = Coordinates.VectorToAngle(Objectives[obj].Direction);
-            Point coords = GetCellPixelsFromIndexes(Objectives[obj].Coordinates.X, Objectives[obj].Coordinates.Y);
-            AssetsManager.DrawSprite(spriteIndex, coords.X, coords.Y, angle, Objectives[obj].Color, 90);
+            float angle = Coordinates.VectorToAngle(obj.Direction);
+            Point coords = GetCellPixelsFromIndexes(obj.Coordinates.X, obj.Coordinates.Y);
+            Graphics.DrawImage(coords.X, coords.Y, obj.Color, AM.GetSprite(obj.SpriteId), angle, 90);
         }
     }
 
@@ -82,9 +83,9 @@ public class Grid : GenericGrid<CellType>
                 }
                 Graphics.DrawSquare(coords.X, coords.Y, CellSize, color);
                 if (GetCell(row, column) == CellType.Apple)
-                    AssetsManager.DrawSprite(7, coords.X, coords.Y, 0f, "White", 255);
+                    Graphics.DrawImage(coords.X, coords.Y, "White", AM.GetSprite(SpriteId.Apple), 0f, 255);
                 else if (GetCell(row, column) == CellType.Bomb)
-                    AssetsManager.DrawSprite(8, coords.X, coords.Y, 0f, "White", 255);
+                    Graphics.DrawImage(coords.X, coords.Y, "White", AM.GetSprite(SpriteId.Bomb), 0f, 255);
             }
         }
         DrawObjectives();
