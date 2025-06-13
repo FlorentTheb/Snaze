@@ -78,7 +78,7 @@ public static class Graphics
         Color raylibColor = GetColorFromString(color);
         int centerX = (int)(box.X + box.Width / 2);
         int centerY = (int)(box.Y + box.Height / 2);
-        int textHeight = (int)box.Height / 2;
+        int textHeight = (int)box.Height * 2 / 5;
         int textWidth = GetTextWidth(text, textHeight);
         Raylib.DrawText(text, centerX - textWidth / 2, centerY - textHeight / 2, textHeight, raylibColor);
     }
