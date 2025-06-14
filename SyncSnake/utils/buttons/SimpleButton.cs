@@ -28,7 +28,7 @@ public abstract class SimpleButton : IButton
         OnClickCallback?.Invoke();
     }
 
-    public virtual void Update()
+    public virtual bool Update()
     {
         Vector2 mousePos = Raylib.GetMousePosition();
 
@@ -45,7 +45,6 @@ public abstract class SimpleButton : IButton
         }
         else IsClicked = false;
 
-        if (IsClicked)
-            OnClick();
+        return IsClicked;
     }
 }

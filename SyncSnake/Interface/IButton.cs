@@ -9,6 +9,6 @@ public interface IButton
     bool IsClicked { get; }
 
     void Draw();
-    void Update();
+    bool Update();
     void OnClick();
 }
