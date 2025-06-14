@@ -10,8 +10,13 @@ public class ButtonsManager
 
     public void RegisterButtons(List<IButton> buttonList)
     {
-        ButtonList.Clear();
+        Clear();
         ButtonList = buttonList;
+    }
+
+    public void Clear()
+    {
+        ButtonList.Clear();
     }
 
     public void Draw()
@@ -27,7 +32,12 @@ public class ButtonsManager
         bool isOneButtonHovered = false;
         foreach (var button in ButtonList)
         {
-            button.Update();
+            if (button.Update())
+            {
+                button.OnClick();
+                return;
+            }
+
             isOneButtonHovered = button.IsHovered || isOneButtonHovered;
         }
 
