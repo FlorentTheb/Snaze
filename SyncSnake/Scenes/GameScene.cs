@@ -6,8 +6,8 @@ using Managers;
 public class GameScene : IScene
 {
     private int CurrentLevel;
-
-    private AssetsManager AM;
+    private ScenesManager SM;
+    private ButtonsManager BM;
     private bool IsCurrentLevelResolved = false;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
@@ -16,10 +16,21 @@ public class GameScene : IScene
 
     public GameScene()
     {
-        AM = ServiceLocator.GetService<AssetsManager>();
+        SM = ServiceLocator.GetService<ScenesManager>();
+        BM = ServiceLocator.GetService<ButtonsManager>();
         CurrentLevel = 1;
+        InitButtons();
         InitCells();
-        RestartButton = new RoundedButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), ResetLevel);
+    }
+
+    private void InitButtons()
+    {
+        List<IButton> buttonList = new()
+        {
+            new NeonButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), "Pink", ResetLevel),
+            new NeonButton("Back", new Raylib_cs.Rectangle(200, 170, 100, 50), "Blue", SM.ChangeScene<MenuScene>)
+        };
+        BM.RegisterButtons(buttonList);
     }
 
     private void InitCells()
@@ -30,7 +41,7 @@ public class GameScene : IScene
     public void Update()
     {
         CheckMouseInputs();
-        RestartButton.Update();
+        BM.Update();
         if (Grids[0].isResolved && Grids[1].isResolved)
         {
             IsCurrentLevelResolved = true;
@@ -62,7 +73,7 @@ public class GameScene : IScene
         DrawGrids();
         DrawSnakes();
         DrawResult();
-        RestartButton.Draw();
+        BM.Draw();
     }
 
     public void DrawResult()
