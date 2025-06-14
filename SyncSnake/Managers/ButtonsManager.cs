@@ -1,4 +1,5 @@
 using System;
+using Raylib_cs;
 public class ButtonsManager
 {
     private List<IButton> ButtonList = [];
@@ -9,11 +10,30 @@ public class ButtonsManager
 
     public void RegisterButtons(List<IButton> buttonList)
     {
+        ButtonList.Clear();
         ButtonList = buttonList;
+    }
+
+    public void Draw()
+    {
+        foreach (var button in ButtonList)
+        {
+            button.Draw();
+        }
     }
 
     public void Update()
     {
+        bool isOneButtonHovered = false;
+        foreach (var button in ButtonList)
+        {
+            button.Update();
+            isOneButtonHovered = button.IsHovered || isOneButtonHovered;
+        }
 
+        if (isOneButtonHovered)
+            Raylib.SetMouseCursor(MouseCursor.PointingHand);
+        else
+            Raylib.SetMouseCursor(MouseCursor.Arrow);
     }
 }
