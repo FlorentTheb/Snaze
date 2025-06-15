@@ -15,7 +15,7 @@ public class TutorialScene : IScene
         "The rules :\n\n\nEach snake have a head, and a tail right ?\n\n\nYour goal is to position their head and tail in a specific cell :\nThe position AND the angle to match the objective cells matters\nso ... Be strategic ;)\n\nIf you succeed to do so,\nyou complete the level and go to a more difficult one :)\n\n\nTheses objective cells will have a specific image as a background,\nrecognizable as the head and the tail",
         "Each snake will have its own play area\n\n\nOf course to spice it up a bit :\n\nThe walls\n\nThe apples\n\nThe bombs\n\n\nWill be on different position among the 2 grids !",
         "About the different cells :\n\nWall : if a snake try to go towards a wall,\nit will continue in its default direction it was before the direction wished\n\nApple : Both snakes will grow an extra segment\n\nBomb : The other snake will have a segment of its body removed",
-        "A restart button makes everything goes back\nas the beginning of the current level.\n\n\nYou can press Escape to open Pause Menu",
+        "A restart button makes everything goes back\nat the beginning of the current level",
         "Good luck, and have fun!"
     ];
 
