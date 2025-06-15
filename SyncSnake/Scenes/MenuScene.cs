@@ -31,7 +31,9 @@ public class MenuScene : IScene
             int buttonWidth = (int)((float)labelWidth * 1.5f);
             int buttonHeight = (int)((float)labelHeight * 1.5f);
             Rectangle currentButtonBounds = new Rectangle(posX - buttonWidth / 2, posY - buttonHeight / 2, buttonWidth, buttonHeight);
-            if (labels[buttonIndex].Equals("Pause"))
+            if (labels[buttonIndex].Equals("Play"))
+                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.ChangeScene<TutorialScene>));
+            else if (labels[buttonIndex].Equals("Pause"))
                 lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.PushScene<PauseScene>));
             else
                 lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Blue", SM.ChangeScene<GameScene>));

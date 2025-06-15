@@ -5,7 +5,7 @@ using Raylib_cs;
 
 public class NeonButton : SimpleButton
 {
-    private string Text = "";
+    public string Text = "";
     private readonly float Roundness = 1.0f;
     private readonly float Thickness = 8.0f;
     private readonly int Segments = 60;
