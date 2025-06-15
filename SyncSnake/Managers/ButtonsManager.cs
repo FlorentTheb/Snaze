@@ -1,49 +1,31 @@
-using System;
 using Raylib_cs;
 public class ButtonsManager
 {
-    private List<IButton> ButtonList = [];
     public ButtonsManager()
     {
         ServiceLocator.Register(this);
     }
 
-    public void RegisterButtons(List<IButton> buttonList)
-    {
-        Clear();
-        ButtonList = buttonList;
-    }
-
-    public void Clear()
-    {
-        ButtonList.Clear();
-    }
-
-    public void Draw()
-    {
-        foreach (var button in ButtonList)
-        {
-            button.Draw();
-        }
-    }
-
-    public void Update()
+    public void Update(List<IButton> buttons)
     {
         bool isOneButtonHovered = false;
-        foreach (var button in ButtonList)
+
+        foreach (var button in buttons)
         {
             if (button.Update())
             {
                 button.OnClick();
                 return;
             }
-
-            isOneButtonHovered = button.IsHovered || isOneButtonHovered;
+            isOneButtonHovered |= button.IsHovered;
         }
 
-        if (isOneButtonHovered)
-            Raylib.SetMouseCursor(MouseCursor.PointingHand);
-        else
-            Raylib.SetMouseCursor(MouseCursor.Arrow);
+        Raylib.SetMouseCursor(isOneButtonHovered ? MouseCursor.PointingHand : MouseCursor.Arrow);
+    }
+
+    public void Draw(List<IButton> buttons)
+    {
+        foreach (var button in buttons)
+            button.Draw();
     }
 }
