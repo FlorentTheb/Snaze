@@ -26,7 +26,7 @@ public class GameScene : IScene
     private void InitButtons()
     {
         lButtons.Add(new NeonButton("Restart", new Raylib_cs.Rectangle(50, 50, 100, 50), "Pink", ResetLevel));
-        lButtons.Add(new NeonButton("Quit", new Raylib_cs.Rectangle(50, 120, 100, 50), "Blue", SM.ChangeScene<MenuScene>));
+        lButtons.Add(new NeonButton("Menu", new Raylib_cs.Rectangle(50, 120, 100, 50), "Blue", SM.ChangeScene<MenuScene>));
     }
 
     private void InitCells()
