@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Drawing;
 using System.Numerics;
 using GameTool;
@@ -43,7 +44,10 @@ public class GameScene : IScene
             GameTimer.Stop();
 
             Raylib_cs.Rectangle nextRect = new Raylib_cs.Rectangle(Screen.GetWidth() - 200, 50, 150, 50);
-            lButtons.Add(new NeonButton("Next Level", nextRect, "Blue", GoNextLevel));
+            if (CurrentLevel == 3)
+                lButtons.Add(new NeonButton("Next Level", nextRect, "Blue", SM.ChangeScene<VictoryScene>));
+            else
+                lButtons.Add(new NeonButton("Next Level", nextRect, "Blue", GoNextLevel));
         }
         else if (!IsCurrentLevelResolved)
         {
