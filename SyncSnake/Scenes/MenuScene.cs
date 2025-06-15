@@ -13,8 +13,8 @@ public class MenuScene : IScene
         List<string> labelList = new()
         {
             "Play",
-            "Pause",
-            "Credits"
+            "Credits",
+            "Quit"
         };
         InitButtons(labelList);
     }
@@ -33,10 +33,10 @@ public class MenuScene : IScene
             Rectangle currentButtonBounds = new Rectangle(posX - buttonWidth / 2, posY - buttonHeight / 2, buttonWidth, buttonHeight);
             if (labels[buttonIndex].Equals("Play"))
                 lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.ChangeScene<TutorialScene>));
-            else if (labels[buttonIndex].Equals("Pause"))
-                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.PushScene<PauseScene>));
+            else if (labels[buttonIndex].Equals("Credits"))
+                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.ChangeScene<CreditsScene>));
             else
-                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Blue", SM.ChangeScene<GameScene>));
+                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Blue", SM.ShouldClose));
         }
     }
     public void Draw()
