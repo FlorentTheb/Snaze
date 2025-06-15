@@ -24,8 +24,8 @@ public class GameScene : IScene
 
     private void InitButtons()
     {
-        lButtons.Add(new NeonButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), "Pink", ResetLevel));
-        lButtons.Add(new NeonButton("Back", new Raylib_cs.Rectangle(200, 170, 100, 50), "Blue", SM.ChangeScene<MenuScene>));
+        lButtons.Add(new NeonButton("Restart", new Raylib_cs.Rectangle(50, 50, 100, 50), "Pink", ResetLevel));
+        lButtons.Add(new NeonButton("Quit", new Raylib_cs.Rectangle(50, 120, 100, 50), "Blue", SM.ChangeScene<MenuScene>));
     }
 
     private void InitCells()
@@ -37,12 +37,15 @@ public class GameScene : IScene
     {
         CheckMouseInputs();
         BM.Update(lButtons);
-        if (Grids[0].isResolved && Grids[1].isResolved)
+        if (Grids[0].isResolved && Grids[1].isResolved && !IsCurrentLevelResolved)
         {
             IsCurrentLevelResolved = true;
             GameTimer.Stop();
+
+            Raylib_cs.Rectangle nextRect = new Raylib_cs.Rectangle(Screen.GetWidth() - 200, 50, 150, 50);
+            lButtons.Add(new NeonButton("Next Level", nextRect, "Blue", GoNextLevel));
         }
-        else
+        else if (!IsCurrentLevelResolved)
         {
             if (!GameTimer.Update())
                 InputsManager.CheckKeyboard();
@@ -74,16 +77,12 @@ public class GameScene : IScene
     public void DrawResult()
     {
         string result = IsCurrentLevelResolved ? "Victory" : "Resolving ...";
-        int height = 30;
-        int width = Graphics.GetTextWidth(result, height);
-        Graphics.DrawText(result, new Raylib_cs.Rectangle(Screen.GetWidth() * 3 / 4, 100, 100, 50), "Green");
+        Graphics.DrawText(result, new Raylib_cs.Rectangle(Screen.GetWidth() * 3 / 4, 100, 200, 100), "Green");
         float timeRemaining = GameTimer.GetRemainingTime();
         string timeRemainingString = timeRemaining.ToString("n1");
-        int width2 = Graphics.GetTextWidth(timeRemainingString, height);
         string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
-        int width3 = Graphics.GetTextWidth(wishedDirection, height);
-        Graphics.DrawText(timeRemainingString, new Raylib_cs.Rectangle(Screen.GetWidth() / 2, 100, 100, 50), "Green");
-        Graphics.DrawText(wishedDirection, new Raylib_cs.Rectangle(Screen.GetWidth() / 2, 200, 100, 50), "Green");
+        Graphics.DrawText(timeRemainingString, new Raylib_cs.Rectangle(Screen.GetWidth() / 2 - 50, 100, 100, 50), "Green");
+        Graphics.DrawText("Direction : " + wishedDirection, new Raylib_cs.Rectangle(Screen.GetWidth() / 2 - 50, 200, 100, 50), "Green");
     }
     public void DrawGrids()
     {
@@ -127,14 +126,32 @@ public class GameScene : IScene
 
     public void LoadLevel()
     {
-        if (CurrentLevel == 1)
-            LoadLevelOne();
+        switch (CurrentLevel)
+        {
+            case 1:
+                LoadLevelOne();
+                break;
+            case 2:
+                LoadLevelTwo();
+                break;
+            case 3:
+                LoadLevelThree();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void GoNextLevel()
+    {
+        CurrentLevel++;
+        ResetLevel();
     }
 
     public void LoadLevelOne()
     {
-        Grids.Add(new Grid(0, new Point(12, 9), new Point(10, 9), "Right", "Right"));
-        Grids.Add(new Grid(1, new Point(11, 8), new Point(10, 9), "Right", "Up"));
+        Grids.Add(new Grid(0, new Point(13, 9), new Point(11, 9), "Right", "Right"));
+        Grids.Add(new Grid(1, new Point(12, 8), new Point(11, 9), "Up", "Right"));
         Snakes.Add(new Snake(Grids[0]));
         Snakes.Add(new Snake(Grids[1]));
         GameTimer.Set(2);
@@ -142,7 +159,7 @@ public class GameScene : IScene
         {
             for (int column = 0; column < Grids[0].Columns; column++)
             {
-                if (row < 6 || row > Grids[0].Rows - 7 || column < 6 || column > Grids[0].Columns - 7)
+                if (row < 7 || row > Grids[0].Rows - 8 || column < 7 || column > Grids[0].Columns - 6)
                 {
                     Grids[0].SetCell(row, column, CellType.Wall);
                     Grids[1].SetCell(row, column, CellType.Wall);
@@ -153,23 +170,72 @@ public class GameScene : IScene
                     Grids[1].SetCell(row, column, CellType.Empty);
                 }
 
-                Grids[0].SetCell(0, 0, CellType.Empty);
-                Grids[0].SetCell(8, 10, CellType.Wall);
-                Grids[1].SetCell(7, 10, CellType.Wall);
-
-                Grids[0].SetCell(6, 6, CellType.Apple);
-                Grids[0].SetCell(7, 6, CellType.Apple);
-                Grids[0].SetCell(8, 6, CellType.Apple);
-                Grids[0].SetCell(9, 6, CellType.Apple);
-                Grids[0].SetCell(10, 6, CellType.Apple);
-                Grids[1].SetCell(12, 12, CellType.Bomb);
+                Grids[0].SetCell(8, 12, CellType.Wall);
             }
         }
     }
 
+    public void LoadLevelTwo()
+    {
+        Grids.Add(new Grid(0, new Point(13, 9), new Point(12, 9), "Down", "Up"));
+        Grids.Add(new Grid(1, new Point(13, 11), new Point(11, 10), "Right", "Down"));
+        Snakes.Add(new Snake(Grids[0]));
+        Snakes.Add(new Snake(Grids[1]));
+        GameTimer.Set(2);
+        for (int row = 0; row < Grids[0].Rows; row++)
+        {
+            for (int column = 0; column < Grids[0].Columns; column++)
+            {
+                if (row < 7 || row > Grids[0].Rows - 8 || column < 7 || column > Grids[0].Columns - 6)
+                {
+                    Grids[0].SetCell(row, column, CellType.Wall);
+                    Grids[1].SetCell(row, column, CellType.Wall);
+                }
+                else
+                {
+                    Grids[0].SetCell(row, column, CellType.Empty);
+                    Grids[1].SetCell(row, column, CellType.Empty);
+                }
+
+                Grids[0].SetCell(10, 11, CellType.Wall);
+                Grids[1].SetCell(11, 12, CellType.Apple);
+            }
+        }
+    }
+
+    public void LoadLevelThree()
+    {
+        Grids.Add(new Grid(0, new Point(9, 11), new Point(9, 9), "Down", "Down"));
+        Grids.Add(new Grid(1, new Point(12, 10), new Point(13, 8), "Left", "Down"));
+        Snakes.Add(new Snake(Grids[0]));
+        Snakes.Add(new Snake(Grids[1]));
+        GameTimer.Set(2);
+        for (int row = 0; row < Grids[0].Rows; row++)
+        {
+            for (int column = 0; column < Grids[0].Columns; column++)
+            {
+                if (row < 7 || row > Grids[0].Rows - 8 || column < 7 || column > Grids[0].Columns - 5)
+                {
+                    Grids[0].SetCell(row, column, CellType.Wall);
+                    Grids[1].SetCell(row, column, CellType.Wall);
+                }
+                else
+                {
+                    Grids[0].SetCell(row, column, CellType.Empty);
+                    Grids[1].SetCell(row, column, CellType.Empty);
+                }
+
+                Grids[0].SetCell(8, 10, CellType.Apple);
+                Grids[0].SetCell(7, 10, CellType.Wall);
+                Grids[0].SetCell(10, 8, CellType.Wall);
+                Grids[1].SetCell(8, 11, CellType.Wall);
+                Grids[1].SetCell(8, 12, CellType.Bomb);
+            }
+        }
+    }
     public void ResetLevel()
     {
-        Console.WriteLine("CHECK RESET");
+        lButtons.RemoveAll(b => (b as NeonButton)?.Text == "Next Level");
         Grids.Clear();
         Snakes.Clear();
         GameTimer.Stop();
