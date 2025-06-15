@@ -1,16 +1,43 @@
-using System;
 public class ScenesManager
 {
-    private IScene CurrentScene;
+    private Stack<IScene> SceneStack = new();
     public ScenesManager()
     {
         ServiceLocator.Register(this);
-        CurrentScene = new MenuScene();
     }
-    public void Update() => CurrentScene.Update();
-    public void Draw() => CurrentScene.Draw();
+
+    public void PushScene<T>() where T : IScene, new()
+    {
+        SceneStack.Push(new T());
+    }
+
+    public void PopScene()
+    {
+        if (SceneStack.Count == 0)
+            throw new InvalidOperationException("Scene stack is empty. Cannot pop scene.");
+
+        SceneStack.Pop();
+    }
+    public void ClearScenes()
+    {
+        SceneStack.Clear();
+    }
+
+    public void Update()
+    {
+        IScene? CurrentScene = SceneStack.Count > 0 ? SceneStack.Peek() : null;
+        CurrentScene?.Update();
+    }
+    public void Draw()
+    {
+        foreach (var scene in SceneStack.Reverse())
+        {
+            scene.Draw();
+        }
+    }
     public void ChangeScene<T>() where T : IScene, new()
     {
-        CurrentScene = new T();
+        ClearScenes();
+        PushScene<T>();
     }
 }
