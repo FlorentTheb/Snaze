@@ -3,8 +3,9 @@ using Raylib_cs;
 using GameTool;
 public class MenuScene : IScene
 {
-    private ButtonsManager BM;
-    private ScenesManager SM;
+    private readonly ButtonsManager BM;
+    private readonly ScenesManager SM;
+    List<IButton> lButtons = [];
     public MenuScene()
     {
         BM = ServiceLocator.GetService<ButtonsManager>();
@@ -12,7 +13,7 @@ public class MenuScene : IScene
         List<string> labelList = new()
         {
             "Play",
-            "Tutorial",
+            "Pause",
             "Credits"
         };
         InitButtons(labelList);
@@ -21,7 +22,6 @@ public class MenuScene : IScene
     private void InitButtons(List<String> labels)
     {
         int nbButtons = labels.Count;
-        List<IButton> ButtonList = [];
         for (int buttonIndex = 0; buttonIndex < nbButtons; buttonIndex++)
         {
             int posX = Screen.GetWidth() / 2;
@@ -31,17 +31,19 @@ public class MenuScene : IScene
             int buttonWidth = (int)((float)labelWidth * 1.5f);
             int buttonHeight = (int)((float)labelHeight * 1.5f);
             Rectangle currentButtonBounds = new Rectangle(posX - buttonWidth / 2, posY - buttonHeight / 2, buttonWidth, buttonHeight);
-            ButtonList.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Blue", SM.ChangeScene<GameScene>));
+            if (labels[buttonIndex].Equals("Pause"))
+                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Pink", SM.PushScene<PauseScene>));
+            else
+                lButtons.Add(new NeonButton(labels[buttonIndex], currentButtonBounds, "Blue", SM.ChangeScene<GameScene>));
         }
-        BM.RegisterButtons(ButtonList);
     }
     public void Draw()
     {
-        BM.Draw();
+        BM.Draw(lButtons);
     }
 
     public void Update()
     {
-        BM.Update();
+        BM.Update(lButtons);
     }
 }

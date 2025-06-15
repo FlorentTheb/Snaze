@@ -5,14 +5,13 @@ using Managers;
 
 public class GameScene : IScene
 {
+    List<IButton> lButtons = [];
     private int CurrentLevel;
     private ScenesManager SM;
     private ButtonsManager BM;
     private bool IsCurrentLevelResolved = false;
     private List<Grid> Grids = [];
     private List<Snake> Snakes = [];
-
-    private IButton RestartButton;
 
     public GameScene()
     {
@@ -25,12 +24,8 @@ public class GameScene : IScene
 
     private void InitButtons()
     {
-        List<IButton> buttonList = new()
-        {
-            new NeonButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), "Pink", ResetLevel),
-            new NeonButton("Back", new Raylib_cs.Rectangle(200, 170, 100, 50), "Blue", SM.ChangeScene<MenuScene>)
-        };
-        BM.RegisterButtons(buttonList);
+        lButtons.Add(new NeonButton("Restart", new Raylib_cs.Rectangle(200, 100, 100, 50), "Pink", ResetLevel));
+        lButtons.Add(new NeonButton("Back", new Raylib_cs.Rectangle(200, 170, 100, 50), "Blue", SM.ChangeScene<MenuScene>));
     }
 
     private void InitCells()
@@ -41,7 +36,7 @@ public class GameScene : IScene
     public void Update()
     {
         CheckMouseInputs();
-        BM.Update();
+        BM.Update(lButtons);
         if (Grids[0].isResolved && Grids[1].isResolved)
         {
             IsCurrentLevelResolved = true;
@@ -73,7 +68,7 @@ public class GameScene : IScene
         DrawGrids();
         DrawSnakes();
         DrawResult();
-        BM.Draw();
+        BM.Draw(lButtons);
     }
 
     public void DrawResult()
