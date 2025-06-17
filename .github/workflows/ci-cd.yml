@@ -1,0 +1,82 @@
+name: CI/CD Build and Lint
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  super-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Super-Linter
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_CSHARP: true
+          # Plus de langages si besoin
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    needs: super-linter
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Windows Release
+        run: dotnet publish SyncSnake/SyncSnake.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -o publish/win-x64
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SyncSnake-Windows
+          path: publish/win-x64
+
+  build-linux:
+    needs: super-linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Linux Release
+        run: dotnet publish SyncSnake/SyncSnake.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -o publish/linux-x64
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SyncSnake-Linux
+          path: publish/linux-x64
+
+  build-macos:
+    needs: super-linter
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish macOS Release
+        run: dotnet publish SyncSnake/SyncSnake.csproj -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -o publish/osx-x64
+
+      - name: Package .app (zip)
+        run: cd publish/osx-x64 && zip -r SyncSnake-macos.app.zip SyncSnake.app
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SyncSnake-macos
+          path: publish/osx-x64/SyncSnake-macos.app.zip
