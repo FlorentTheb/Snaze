@@ -33,7 +33,7 @@ jobs:
         run: dotnet publish SyncSnake/SyncSnake.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -o publish/win-x64
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SyncSnake-Windows
           path: publish/win-x64
@@ -53,7 +53,7 @@ jobs:
         run: dotnet publish SyncSnake/SyncSnake.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -o publish/linux-x64
 
       - name: Upload Linux artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SyncSnake-Linux
           path: publish/linux-x64
@@ -76,7 +76,7 @@ jobs:
         run: cd publish/osx-x64 && zip -r SyncSnake-macos.app.zip SyncSnake.app
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SyncSnake-macos
           path: publish/osx-x64/SyncSnake-macos.app.zip
