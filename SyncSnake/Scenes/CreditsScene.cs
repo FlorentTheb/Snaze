@@ -4,9 +4,9 @@ using Raylib_cs;
 
 public class CreditsScene : IScene
 {
-    List<IButton> lButtons = [];
-    private ButtonsManager BM;
-    private ScenesManager SM;
+    private readonly List<IButton> lButtons = [];
+    private readonly ButtonsManager BM;
+    private readonly ScenesManager SM;
     public CreditsScene()
     {
         BM = ServiceLocator.GetService<ButtonsManager>();

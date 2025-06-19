@@ -1,8 +1,8 @@
 public class ScenesManager
 {
-    private Stack<IScene> SceneStack = new();
+    private readonly Stack<IScene> SceneStack = new();
 
-    public bool willClose { get; private set; } = false;
+    public bool WillClose { get; private set; } = false;
     public ScenesManager()
     {
         ServiceLocator.Register(this);
@@ -45,6 +45,6 @@ public class ScenesManager
 
     public void ShouldClose()
     {
-        willClose = true;
+        WillClose = true;
     }
 }

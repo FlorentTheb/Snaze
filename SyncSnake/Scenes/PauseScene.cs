@@ -4,10 +4,10 @@ using Raylib_cs;
 
 public class PauseScene : IScene
 {
-    List<IButton> lButtons = [];
-    private ButtonsManager BM;
-    private ScenesManager SM;
-    private Rectangle Area;
+    private readonly List<IButton> lButtons = [];
+    private readonly ButtonsManager BM;
+    private readonly ScenesManager SM;
+    private readonly Rectangle Area;
     public PauseScene()
     {
         BM = ServiceLocator.GetService<ButtonsManager>();

@@ -3,14 +3,12 @@ using Raylib_cs;
 
 public class TutorialScene : IScene
 {
+    private readonly List<IButton> lButtons = [];
     private readonly ButtonsManager BM;
     private readonly ScenesManager SM;
-
     private int TutorialPageIndex = 0;
 
-    private List<IButton> lButtons = [];
-
-    private List<string> TutorialTexts = [
+    private readonly List<string> TutorialTexts = [
         "Welcome to SyncSnake\n\n\nIn this variant of the world famous game 'Snake'\n\nYou will not control 1 but 2 snakes... Simutaneously !\n\n\nLike in a classic Snake, you control the snakes in 4 directions :\n\nZ or Up Arrow : Snakes goes up\nS or Down Arrow : Snakes goes down\nQ or Left Arrow : Snakes goes left\nD or Right Arrow : Snakes goes right\n\n\nA timer will be displayed for the remaining time left to chose a direction\nIf none is pressed, the snakes will move in their default direction",
         "The rules :\n\n\nEach snake have a head, and a tail right ?\n\n\nYour goal is to position their head and tail in a specific cell :\nThe position AND the angle to match the objective cells matters\nso ... Be strategic ;)\n\nIf you succeed to do so,\nyou complete the level and go to a more difficult one :)\n\n\nTheses objective cells will have a specific image as a background,\nrecognizable as the head and the tail",
         "Each snake will have its own play area\n\n\nOf course to spice it up a bit :\n\nThe walls\n\nThe apples\n\nThe bombs\n\n\nWill be on different position among the 2 grids !",
@@ -45,7 +43,7 @@ public class TutorialScene : IScene
 
         if (TutorialPageIndex == 1 && lButtons.Count == 1)
         {
-            Rectangle backRect = new Rectangle(50, 50, 100, 50);
+            Rectangle backRect = new(50, 50, 100, 50);
             lButtons.Add(new NeonButton("Back", backRect, "Pink", GoBack));
         }
 
@@ -66,7 +64,7 @@ public class TutorialScene : IScene
             TutorialPageIndex--;
 
         if (TutorialPageIndex == 0)
-            lButtons.RemoveAll(b => (b as NeonButton)?.Text == "Back");
+            lButtons.RemoveAll(b => b is NeonButton { Text: "Back" });
 
         var nextButton = lButtons.OfType<NeonButton>().FirstOrDefault(b => b.Text == "Go");
         if (nextButton != null)

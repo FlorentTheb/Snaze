@@ -5,8 +5,8 @@ using Managers;
 
 public class Grid : GenericGrid<CellType>
 {
-    private AssetsManager AM;
-    public bool isResolved = false;
+    private readonly AssetsManager AM;
+    public bool IsResolved = false;
     private const int CellNumber = 19;
     private const int CellSize = 30;
     private const int CellOffset = 2;

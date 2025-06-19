@@ -4,9 +4,9 @@ using Raylib_cs;
 
 public class VictoryScene : IScene
 {
-    List<IButton> lButtons = [];
-    private ButtonsManager BM;
-    private ScenesManager SM;
+    private readonly List<IButton> lButtons = [];
+    private readonly ButtonsManager BM;
+    private readonly ScenesManager SM;
     public VictoryScene()
     {
         BM = ServiceLocator.GetService<ButtonsManager>();

@@ -7,15 +7,15 @@ public class InputsManager
     {
         ServiceLocator.Register(this);
     }
-    public static string direction { get; private set; } = "";
+    public static string Direction { get; private set; } = "";
     private static void Register(string newDirection)
     {
-        direction = newDirection;
+        Direction = newDirection;
     }
 
     public static void Reset()
     {
-        direction = "";
+        Direction = "";
     }
 
     public static void CheckKeyboard()

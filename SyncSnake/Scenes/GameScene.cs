@@ -6,13 +6,13 @@ using Managers;
 
 public class GameScene : IScene
 {
-    List<IButton> lButtons = [];
+    private readonly List<IButton> lButtons = [];
     private int CurrentLevel;
-    private ScenesManager SM;
-    private ButtonsManager BM;
+    private readonly ScenesManager SM;
+    private readonly ButtonsManager BM;
     private bool IsCurrentLevelResolved = false;
-    private List<Grid> Grids = [];
-    private List<Snake> Snakes = [];
+    private readonly List<Grid> Grids = [];
+    private readonly List<Snake> Snakes = [];
 
     public GameScene()
     {
@@ -38,7 +38,7 @@ public class GameScene : IScene
     {
         CheckMouseInputs();
         BM.Update(lButtons);
-        if (Grids[0].isResolved && Grids[1].isResolved && !IsCurrentLevelResolved)
+        if (Grids[0].IsResolved && Grids[1].IsResolved && !IsCurrentLevelResolved)
         {
             IsCurrentLevelResolved = true;
             GameTimer.Stop();
@@ -57,7 +57,7 @@ public class GameScene : IScene
             {
                 for (int snakeIndex = 0; snakeIndex < Snakes.Count; snakeIndex++) // Check extend and reduce first
                 {
-                    string currentDirection = InputsManager.direction != "" ? InputsManager.direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
+                    string currentDirection = InputsManager.Direction != "" ? InputsManager.Direction : Coordinates.VectorToString(Snakes[snakeIndex].SnakeParts[0].Direction);
                     Snakes[1 - snakeIndex].UpdateNextLength(Snakes[snakeIndex].CheckHeadNextMove(currentDirection));
                 }
                 GameTimer.Reset();
@@ -84,7 +84,7 @@ public class GameScene : IScene
         Graphics.DrawText(result, new Raylib_cs.Rectangle(Screen.GetWidth() * 3 / 4, 100, 200, 100), "Green");
         float timeRemaining = GameTimer.GetRemainingTime();
         string timeRemainingString = timeRemaining.ToString("n1");
-        string wishedDirection = InputsManager.direction != "" ? InputsManager.direction : "Default";
+        string wishedDirection = InputsManager.Direction != "" ? InputsManager.Direction : "Default";
         Graphics.DrawText(timeRemainingString, new Raylib_cs.Rectangle(Screen.GetWidth() / 2 - 50, 100, 100, 50), "Green");
         Graphics.DrawText("Direction : " + wishedDirection, new Raylib_cs.Rectangle(Screen.GetWidth() / 2 - 50, 200, 100, 50), "Green");
     }
@@ -239,7 +239,7 @@ public class GameScene : IScene
     }
     public void ResetLevel()
     {
-        lButtons.RemoveAll(b => (b as NeonButton)?.Text == "Next Level");
+        lButtons.RemoveAll(b => b is NeonButton { Text: "Next Level" });
         Grids.Clear();
         Snakes.Clear();
         GameTimer.Stop();

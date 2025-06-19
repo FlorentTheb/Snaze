@@ -3,24 +3,24 @@ using Raylib_cs;
 using GameTool;
 public class MenuScene : IScene
 {
+    private readonly List<IButton> lButtons = [];
     private readonly ButtonsManager BM;
     private readonly ScenesManager SM;
-    List<IButton> lButtons = [];
     public MenuScene()
     {
         BM = ServiceLocator.GetService<ButtonsManager>();
         SM = ServiceLocator.GetService<ScenesManager>();
-        List<string> labelList = new()
-        {
+        InitButtons();
+    }
+
+    private void InitButtons()
+    {
+        List<string> labels =
+        [
             "Play",
             "Credits",
             "Quit"
-        };
-        InitButtons(labelList);
-    }
-
-    private void InitButtons(List<String> labels)
-    {
+        ];
         int nbButtons = labels.Count;
         for (int buttonIndex = 0; buttonIndex < nbButtons; buttonIndex++)
         {

@@ -11,7 +11,7 @@ public class SyncSnake
         InitServiceLocator();
         ScenesManager SM = ServiceLocator.GetService<ScenesManager>();
         SM.ChangeScene<MenuScene>();
-        while (!WindowShouldClose() && !SM.willClose)
+        while (!WindowShouldClose() && !SM.WillClose)
         {
             BeginDrawing();
             ClearBackground(Color.Black);

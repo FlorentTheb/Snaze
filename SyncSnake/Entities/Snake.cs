@@ -43,7 +43,7 @@ public class Snake
     {
         bool headResult = AreElementsInExactSamePosition(SnakeParts[0].Coordinates, Grid.Objectives[0].Coordinates, SnakeParts[0].Direction, Grid.Objectives[0].Direction);
         bool tailResult = AreElementsInExactSamePosition(SnakeParts[^1].Coordinates, Grid.Objectives[1].Coordinates, SnakeParts[^1].Direction, Grid.Objectives[1].Direction);
-        Grid.isResolved = headResult && tailResult;
+        Grid.IsResolved = headResult && tailResult;
     }
 
     public void Update()

@@ -14,23 +14,23 @@ public class NeonButton : SimpleButton
     public NeonButton(string text, Rectangle box, string neonTheme, Action action) : base(box, action)
     {
         Text = text;
-        setColorsTheme(neonTheme);
+        SetColorsTheme(neonTheme);
     }
 
-    private void setColorsTheme(string theme)
+    private void SetColorsTheme(string theme)
     {
         switch (theme)
         {
             case "Blue":
-                setBlueTheme();
+                SetBlueTheme();
                 break;
             default:
-                setPinkTheme();
+                SetPinkTheme();
                 break;
         }
     }
 
-    private void setPinkTheme()
+    private void SetPinkTheme()
     {
         DefaultColor = new Color
         {
@@ -68,7 +68,7 @@ public class NeonButton : SimpleButton
             A = 255
         };
     }
-    private void setBlueTheme()
+    private void SetBlueTheme()
     {
 
         DefaultColor = new Color

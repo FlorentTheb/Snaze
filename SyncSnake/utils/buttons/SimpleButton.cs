@@ -6,9 +6,9 @@ public abstract class SimpleButton : IButton
 {
     protected Rectangle Box;
 
-    public Color DefaultColor;
-    public Color HoverColor;
-    public Color PressedColor;
+    protected Color DefaultColor;
+    protected Color HoverColor;
+    protected Color PressedColor;
 
     public bool IsHovered { get; protected set; } = false;
     public bool IsPressed { get; protected set; } = false;
