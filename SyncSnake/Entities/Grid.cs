@@ -1,6 +1,11 @@
 using System.Drawing;
 using GameTool;
-using Managers;
+using services;
+using services.managers;
+using utils.types;
+using utils.ids;
+
+namespace entities;
 
 public class Grid : GenericGrid<CellType>
 {
