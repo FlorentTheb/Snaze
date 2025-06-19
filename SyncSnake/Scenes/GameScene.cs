@@ -1,5 +1,13 @@
 using System.Drawing;
 using GameTool;
+using utils.types;
+using utils.buttons;
+using interfaces;
+using services;
+using services.managers;
+using entities;
+
+namespace scenes;
 
 public class GameScene : IScene
 {

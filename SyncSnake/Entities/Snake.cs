@@ -1,7 +1,12 @@
 using System.Drawing;
 using System.Numerics;
 using GameTool;
-using Managers;
+using services;
+using services.managers;
+using utils.types;
+using utils.ids;
+
+namespace entities;
 
 public class Snake
 {

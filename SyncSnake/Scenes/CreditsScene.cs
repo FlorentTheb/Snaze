@@ -1,5 +1,11 @@
 using GameTool;
 using Raylib_cs;
+using utils.buttons;
+using interfaces;
+using services;
+using services.managers;
+
+namespace scenes;
 
 public class CreditsScene : IScene
 {

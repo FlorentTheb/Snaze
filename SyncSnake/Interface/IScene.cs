@@ -1,3 +1,5 @@
+namespace interfaces;
+
 public interface IScene
 {
     public void Draw();

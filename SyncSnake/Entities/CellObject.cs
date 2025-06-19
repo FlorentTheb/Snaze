@@ -1,5 +1,8 @@
 using System.Drawing;
 using System.Numerics;
+using utils.ids;
+
+namespace entities;
 public abstract class CellObject
 {
     public SpriteId SpriteId;

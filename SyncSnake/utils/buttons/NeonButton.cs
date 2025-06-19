@@ -1,6 +1,8 @@
 using GameTool;
 using Raylib_cs;
 
+namespace utils.buttons;
+
 public class NeonButton : SimpleButton
 {
     public string Text = "";

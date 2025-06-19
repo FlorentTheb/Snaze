@@ -1,3 +1,5 @@
+namespace utils.ids;
+
 public enum SpriteId
 {
     SnakeHead,

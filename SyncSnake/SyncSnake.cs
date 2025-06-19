@@ -1,6 +1,8 @@
-﻿using Managers;
-using Raylib_cs;
+﻿using Raylib_cs;
 using static Raylib_cs.Raylib;
+using scenes;
+using services;
+using services.managers;
 public class SyncSnake
 {
     public static void Main()

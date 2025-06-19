@@ -1,3 +1,5 @@
+namespace interfaces;
+
 public interface IButton
 {
     bool IsHovered { get; }

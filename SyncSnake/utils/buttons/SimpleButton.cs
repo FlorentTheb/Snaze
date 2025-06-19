@@ -1,5 +1,8 @@
 using System.Numerics;
 using Raylib_cs;
+using interfaces;
+
+namespace utils.buttons;
 
 public abstract class SimpleButton : IButton
 {
