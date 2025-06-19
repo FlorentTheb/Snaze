@@ -38,6 +38,7 @@ jobs:
           path: publish/win-x64
 
   build-linux:
+    needs: super-linter
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -51,6 +52,7 @@ jobs:
           path: publish/linux-x64
 
   build-macos:
+    needs: super-linter
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
