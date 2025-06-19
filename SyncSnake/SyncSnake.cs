@@ -24,9 +24,9 @@ public class SyncSnake
 
     public static void InitServiceLocator()
     {
-        new ButtonsManager();
-        new InputsManager();
-        new AssetsManager();
-        new ScenesManager();
+        _ = new ButtonsManager();
+        _ = new InputsManager();
+        _ = new AssetsManager();
+        _ = new ScenesManager();
     }
 }
