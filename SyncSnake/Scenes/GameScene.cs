@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Drawing;
-using System.Numerics;
 using GameTool;
-using Managers;
 
 public class GameScene : IScene
 {

@@ -1,4 +1,3 @@
-using System;
 using GameTool;
 
 public class InputsManager

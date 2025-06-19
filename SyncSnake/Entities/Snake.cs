@@ -1,12 +1,8 @@
-using System;
-using System.Data;
 using System.Drawing;
 using System.Numerics;
 using GameTool;
-using Raylib_cs;
 using Managers;
 
-using static Raylib_cs.Raylib;
 public class Snake
 {
     private AssetsManager AM;

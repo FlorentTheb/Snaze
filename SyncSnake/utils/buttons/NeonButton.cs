@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using GameTool;
 using Raylib_cs;
 

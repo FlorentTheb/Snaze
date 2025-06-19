@@ -1,5 +1,4 @@
-﻿using GameTool;
-using Managers;
+﻿using Managers;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 public class SyncSnake

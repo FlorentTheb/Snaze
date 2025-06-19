@@ -1,7 +1,3 @@
-using System;
-using System.Drawing;
-using System.Numerics;
-using Raylib_cs;
 public interface IButton
 {
     bool IsHovered { get; }
